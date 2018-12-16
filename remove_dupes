@@ -1,0 +1,15 @@
+remove_duplicates_from_array(["habeeb", "habeeb", "deepak"]);
+let remove_duplicates_from_array = (array) => {
+	// Output free of duplicates
+	let out = [];
+
+	// 
+	array.forEach((element, index) => {
+		// Check if element already exists
+		if (out.indexOf(element) == -1) 
+			out.push(element);
+
+	})
+	console.log("Result is", out);
+
+}
