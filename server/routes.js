@@ -2,28 +2,9 @@ var Twitter = require("twitter");
 const fs  	= require('fs');
 
 var Sequelize = require('sequelize');
+var db 			= require("./db.js");
 
-
-const sequelize = new Sequelize('d4oug53rahvq9c', 'qxocxzztykdqfl', 'LpcbPBlRsU3VAUVBDQ2q4F5fAT', {
-  host: 'ec2-54-83-25-217.compute-1.amazonaws.com',
-  "dialect":"postgres",
-        "ssl": true,
-        "dialectOptions": {
-            "ssl": true
-        },
-
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
-  }});
-
-
-var UserModel = sequelize.import("./models/user.js");
-console.log("ABS -- UserModel", UserModel);
-
-module.exports = function(app) {
+	module.exports = function(app) {
 
 	app.get("/", function() { 
 
@@ -35,7 +16,7 @@ module.exports = function(app) {
 		var search_keyword  =  req.query.search_keyword;
 		var screen_name 	= req.query.screen_name;
 
-		UserModel.find({where: {
+		db["Users"].find({where: {
 						screen_name: screen_name
 		}})
 		.then((user) => {
@@ -66,8 +47,17 @@ module.exports = function(app) {
 		
 
 
-	})
+	});
+
+	app.post("/api/save_search_query", function(req, res) {
+		db["SearchQuery"].create(search_query)
+		.then((search_query) {
+
+		});
+	});
 }
+
+
 
 function search_twitter_promise(twitter_client, search_keyword) {
 
